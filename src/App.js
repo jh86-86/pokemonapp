@@ -51,7 +51,7 @@ function randomInt(){
   
   async function fetchPokemon(){
     let rand= randomInt();
-    const url=process.env.REACT_APP_POKEMON_API;
+    const url=`${process.env.REACT_APP_POKEMON_API}${rand}`;  //`${process.eREACT_APP_API_URL}`
     const response =await fetch(url);
     const data =await response.json();
     // console.log(data);
