@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,70 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+
+.results-display{
+  background-color: aqua;
+}
+
+.fight-section{
+  background-color:lightgreen;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-section{
+  background-color: lightpink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card{
+  border-color:black;
+  border-style:solid;
+  background-color: red;
+  border-width:5px;
+  /* padding-left:5px; */
+
+  margin-left:40px;
+  margin-right:40px;
+  border-radius:10px;
+  width:250px;
+  height:400px;
+
+}
+
+.card-image{
+  background-color: lightslategrey;
+  width:200px;
+  border-radius:10px;
+  margin-left: 20px;
+  margin-top:5px;
+}
+
+/* .card-one{
+  transform: scaleX(-1);
+} */
+
+.cards-section{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.random-buttons{
+  margin-left:105px;
+  margin-right:105px;
+}
+
+.card-text{
+  background-color: lightyellow;
+  padding-left: 40px;
+  border-radius: 10px;
 }
