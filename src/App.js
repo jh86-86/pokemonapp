@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useReducer } from 'react';
 import PokeCall from './Fetch/index';
 import PokemonCard from './displayCard/index';
 import fetchPokemonTwo from './displayCard/index';
@@ -10,31 +10,66 @@ import H1 from './heading/index';
 
 
 
+
 function App() {
 
-const[pokeName,setPokeName]=useState("");
-const[pokeNameTwo,setPokeNameTwo]=useState("");
-const[pokeImage,setImage]=useState("");
 
 
+const initialCardOne = {
+  pokeImage:"",
+  pokeName:"",
+  pokemonHp:"",
+  pokeAtt:"",
+  pokeDef:"",
+  pokeSpeed:"",
+};
 
-const[pokeHp,setPokeHp]=useState("");
-const[pokeAtt,setpokeAtt]=useState("");
-const[pokeDef,setPokeDef]=useState("");
-const[pokeSpeed,setPokeSpeed]=useState("")
-
-const[pokeImageTwo,setImageTwo]=useState("");
-const[pokeHpTwo,setPokeHpTwo]=useState("")
-const[pokeAttTwo,setpokeAttTwo]=useState("");
-const[pokeDefTwo,setPokeDefTwo]=useState("");
-const[pokeSpeedTwo,setPokeSpeedTwo]=useState("")
-
+function reducer(state, action) {
+  switch (action.type) {
+    case "pokeImage":
+      console.log(action.payload);
+      return {...state, pokeImage: action.payload};
+      break;
+      case "pokeName":
+        console.log(action.payload);
+        return {...state, pokeName: action.payload};
+        break;
+        case "hp":
+          console.log(action.payload);
+          return {...state, pokemonHp: action.payload};
+          break;
+          case "pokeAtt":
+            console.log(action.payload);
+            return {...state, pokeAtt: action.payload};
+            break;
+            case "pokeDef":
+              console.log(action.payload);
+              return {...state, pokeDef: action.payload};
+              break;
+              case "pokeSpeed":
+                console.log(action.payload);
+                return {...state, pokeSpeed: action.payload};
+                break;
+                default:
+                  throw new Error();
+                }
+              }
+              
+              
+              const [state, dispatch] = useReducer(reducer, initialCardOne);
+              
+              
+              const[pokeImageTwo,setImageTwo]=useState("");
+              const[pokeHpTwo,setPokeHpTwo]=useState("")
+              const[pokeAttTwo,setpokeAttTwo]=useState("");
+              const[pokeDefTwo,setPokeDefTwo]=useState("");
+              const[pokeSpeedTwo,setPokeSpeedTwo]=useState("")
+              const[pokeNameTwo,setPokeNameTwo]=useState("");
+              
 const[winner,setWinner]=useState("");
 const[winCount,setWinCount]=useState(0);
 const[winCountTwo,setWinCountTwo]=useState(0);
 
-// console.log(pokeName,pokeHp,pokeAtt,pokeDef,pokeSpeed);
-// console.log(pokeNameTwo,pokeHpTwo, pokeAttTwo,pokeDefTwo,pokeSpeedTwo);
 let resultsArray= [0,0]
 const[resultTable,setResultTable]=useState(resultsArray);
 
@@ -51,28 +86,21 @@ function randomInt(){
   
   async function fetchPokemon(){
     let rand= randomInt();
-    const url=`${process.env.REACT_APP_POKEMON_API}${rand}`;  //`${process.eREACT_APP_API_URL}`
+    const url=`${process.env.REACT_APP_POKEMON_API}${rand}`; 
     const response =await fetch(url);
     const data =await response.json();
-    // console.log(data);
    let name= data.name;
    let image=data.sprites.front_default;
    let hp= data.stats[0].base_stat;
    let attack= data.stats[1].base_stat;
    let defense= data.stats[2].base_stat;
-  //  let hp= data.stats[3].base_stat;
-  //  let hp= data.stats[4].base_stat;
-    let speed= data.stats[5].base_stat;
-   //console.log(hp,attack,defense,speed);
-
-  //  console.log(name);
-  //  console.log(image)
-   setPokeHp(hp);
-  setImage(image);
-  setPokeName(name);
-  setpokeAtt(attack);
-  setPokeDef(defense);
-  setPokeSpeed(speed);
+   let speed= data.stats[5].base_stat;
+    dispatch({type: "hp", payload:hp});
+    dispatch({type:"pokeImage", payload: image});
+    dispatch({type: "pokeName", payload:name});
+    dispatch({type:"pokeAtt", payload:attack})
+    dispatch({type: "pokeDef", payload:defense});
+    dispatch({type:"pokeSpeed", payload:speed});
 }
 
 async function fetchPokemonTwo(){
@@ -86,8 +114,6 @@ async function fetchPokemonTwo(){
    let hpTwo= data.stats[0].base_stat;
    let attackTwo= data.stats[1].base_stat;
    let defenseTwo= data.stats[2].base_stat;
-  //  let hp= data.stats[3].base_stat;
-  //  let hp= data.stats[4].base_stat;
     let speed= data.stats[5].base_stat;
 setPokeHpTwo(hpTwo);
 setPokeNameTwo(nameTwo);
@@ -98,7 +124,6 @@ setPokeSpeedTwo(speed);
 }
 
 function handleAttck(attack,health,nameOne,nameTwo){
-  //console.log(`${nameTwo}'s health ${health}`)
   let newAttack= attributePointChanger(attack);
   health = health-newAttack;
    console.log(`${nameOne} attacked ${nameTwo} with ${newAttack} points of damage.`);
@@ -145,6 +170,7 @@ function fight(oneName,hpOne,attOne,twoName,hpTwo,attTwo){
 let heading="Pokemon";
 
 
+console.log(state.pokeAtt)
   return (
     <div className="App">
 
@@ -152,12 +178,13 @@ let heading="Pokemon";
 
         <div className='cards-section'>
         <PokemonCard 
-        pokeName={pokeName} 
-        pokeImage={pokeImage}
-        pokeHp={pokeHp}
-        pokeAtt={pokeAtt}
-        pokeDef={pokeDef}
-        pokeSpeed={pokeSpeed}/> 
+        pokeName={initialCardOne.pokeName} 
+        pokeImage={state.pokeImage}
+        pokeHp={state.pokemonHp}
+        pokeAtt={state.pokeAtt}
+        pokeDef={state.pokeDef}
+        pokeSpeed={state.pokeSpeed}/> 
+
         <PokemonCard  pokeName={pokeNameTwo} pokeImage={pokeImageTwo} pokeHp={pokeHpTwo}
         pokeAtt={pokeAttTwo} pokeDef={pokeDefTwo} pokeSpeed={pokeSpeedTwo}
         poke/>
@@ -169,7 +196,7 @@ let heading="Pokemon";
       </div>  
 
      
-        <FightButton fight={fight} pokeName={pokeName} pokeHp={pokeHp} pokeAtt={pokeAtt}
+        <FightButton fight={fight} pokeName={state.pokeName} pokeHp={state.pokemonHp} pokeAtt={state.pokeAtt}
         pokeNameTwo={pokeNameTwo} pokeHpTwo={pokeHpTwo} pokeAttTwo={pokeAttTwo}/>
         <ResultsDisplay winnerDisplay={winner} winCountDisplay={winCount} winCountTwo={winCountTwo}/>
 
