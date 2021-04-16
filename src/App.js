@@ -1,131 +1,35 @@
 import React, { useState,useReducer } from 'react';
 import PokeCall from './Fetch/index';
 import PokemonCard from './displayCard/index';
-import fetchPokemonTwo from './displayCard/index';
 import FetchButtonTwo from './fetchButtontwo';
 import FightButton from './fight button/index'
 import ResultsDisplay from './results'
 import "./App.css";
 import H1 from './heading/index';
-
+import {randomInt} from './Functions/RandomInt.js';
+import {handleAttck} from './Functions/HandleAttack';
+import {initialCardOne, reducer} from './PokemonReducers/ReducerOne';
+import {initialCardTwo, reducerTwo} from './PokemonReducers/ReducerTwo';
 
 
 
 
 function App() {
 
-
-//pokecard one
-const initialCardOne = {
-  pokeImage:"",
-  pokeName:"",
-  pokemonHp:"",
-  pokeAtt:"",
-  pokeDef:"",
-  pokeSpeed:"",
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "pokeImage":
-      console.log(action.payload);
-      return {...state, pokeImage: action.payload};
-      break;
-      case "pokeName":
-        console.log(action.payload);
-        return {...state, pokeName: action.payload};
-        break;
-        case "hp":
-          console.log(action.payload);
-          return {...state, pokemonHp: action.payload};
-          break;
-          case "pokeAtt":
-            console.log(action.payload);
-            return {...state, pokeAtt: action.payload};
-            break;
-            case "pokeDef":
-              console.log(action.payload);
-              return {...state, pokeDef: action.payload};
-              break;
-              case "pokeSpeed":
-                console.log(action.payload);
-                return {...state, pokeSpeed: action.payload};
-                break;
-                default:
-                  throw new Error();
-                }
-              }
+//card one state and reducer
+const [state, dispatch] = useReducer(reducer, initialCardOne);
+//pokecard two and reducer
+ const [stateTwo, dispatchTwo] = useReducer(reducerTwo, initialCardTwo);
               
-              
-              const [state, dispatch] = useReducer(reducer, initialCardOne);
-
-
-
-//pokecard two
-
-const initialCardTwo = {
-  pokeImage:"",
-  pokeName:"",
-  pokemonHp:"",
-  pokeAtt:"",
-  pokeDef:"",
-  pokeSpeed:"",
-};
-
-function reducerTwo(stateTwo, action) {
-  switch (action.type) {
-    case "pokeImage":
-      console.log(action.payload+"card two");
-      return {...stateTwo, pokeImage: action.payload};
-      break;
-      case "pokeName":
-        console.log(action.payload);
-        return {...stateTwo, pokeName: action.payload};
-        break;
-        case "hp":
-          console.log(action.payload);
-          return {...stateTwo, pokemonHp: action.payload};
-          break;
-          case "pokeAtt":
-            console.log(action.payload);
-            return {...stateTwo, pokeAtt: action.payload};
-            break;
-            case "pokeDef":
-              console.log(action.payload);
-              return {...stateTwo, pokeDef: action.payload};
-              break;
-              case "pokeSpeed":
-                console.log(action.payload);
-                return {...stateTwo, pokeSpeed: action.payload};
-                break;
-                default:
-                  throw new Error();
-                }
-              }
-              
-              
-              const [stateTwo, dispatchTwo] = useReducer(reducerTwo, initialCardTwo);
-              
-              
- 
-              
+//states on victory passed down to resultsDisplay hook
 const[winner,setWinner]=useState("");
 const[winCount,setWinCount]=useState(0);
 const[winCountTwo,setWinCountTwo]=useState(0);
 
-let resultsArray= [0,0]
-const[resultTable,setResultTable]=useState(resultsArray);
+// let resultsArray= [0,0]
+// const[resultTable,setResultTable]=useState(resultsArray);
 
-function randomInt(){
-  let rand= Math.ceil(Math.random()*151);
-  return rand;
-  }
 
-  function attributePointChanger(att){
-    let rand= Math.floor(Math.random()*att);
-    return rand;
-    }
- 
   
     async function fetchPokemon(){
       let rand= randomInt();
@@ -167,15 +71,6 @@ async function fetchPokemonTwo(){
       dispatchTwo({type:"pokeSpeed", payload:speedTwo});
 }
 
-function handleAttck(attack,health,nameOne,nameTwo){
-  let newAttack= attributePointChanger(attack);
-  health = health-newAttack;
-   console.log(`${nameOne} attacked ${nameTwo} with ${newAttack} points of damage.`);
-  console.log(`${nameTwo} has ${health} points of health left`);
-  return health;
- 
-}
-
 
 
 
@@ -205,14 +100,13 @@ function fight(oneName,hpOne,attOne,twoName,hpTwo,attTwo){
   }
 };
 
-let heading="Pokemon";
 
 
-console.log(state.pokeAtt)
+
   return (
     <div className="App">
 
-        <H1 heading={heading}></H1>
+        <H1></H1>
 
         <div className='cards-section'>
         <PokemonCard 

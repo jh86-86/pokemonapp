@@ -10,7 +10,7 @@ function PokeCall({fetchPokemon}){
     )
 }
 
-
+//calls a pokemon for the first card
 
 
 export default PokeCall;

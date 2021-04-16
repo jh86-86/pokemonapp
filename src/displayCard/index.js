@@ -15,4 +15,6 @@ function PokemonCard({pokeName,pokeHp,pokeImage,pokeAtt,pokeDef,pokeSpeed}){
     )   
 }
 
+//display card rendered in dom showing pokemon info
+
 export default PokemonCard
