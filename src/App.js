@@ -7,9 +7,9 @@ import ResultsDisplay from './results'
 import "./App.css";
 import H1 from './heading/index';
 import {randomInt} from './Functions/RandomInt.js';
-import {handleAttck} from './Functions/HandleAttack';
 import {initialCardOne, reducer} from './PokemonReducers/ReducerOne';
 import {initialCardTwo, reducerTwo} from './PokemonReducers/ReducerTwo';
+import {fight} from './Functions/Fight';
 
 
 
@@ -71,38 +71,6 @@ async function fetchPokemonTwo(){
       dispatchTwo({type:"pokeSpeed", payload:speedTwo});
 }
 
-
-
-
-function fight(oneName,hpOne,attOne,twoName,hpTwo,attTwo){
-
-    let winCountPlus=winCount +1;
-    let winCountPlus2= winCountTwo +1;
-
-  while(hpOne>0 && hpTwo>0){
-      hpTwo=handleAttck(attOne, hpTwo,oneName,twoName);
-     
-      hpOne=handleAttck(attTwo,hpOne,twoName,oneName);    
-      if(hpOne<=0){
-        
-        console.log(`${oneName} fainted.`);
-        console.log(`${twoName} won`);
-        setWinner(twoName);
-        setWinCountTwo(winCountPlus2)
-        
-      }else if(hpTwo<=0){
-         winCountPlus=winCountPlus++;
-        console.log(`${twoName} fainted`);
-        console.log(`${oneName} won`);
-        setWinner(oneName);
-        setWinCount(winCountPlus);
-      }
-  }
-};
-
-
-
-
   return (
     <div className="App">
 
@@ -127,11 +95,11 @@ function fight(oneName,hpOne,attOne,twoName,hpTwo,attTwo){
         <PokeCall fetchPokemon={fetchPokemon}/>
         <FetchButtonTwo fetchPokemonTwo={fetchPokemonTwo}/>
       </div>  
-
      
-        <FightButton fight={fight} pokeName={state.pokeName} pokeHp={state.pokemonHp} pokeAtt={state.pokeAtt}
+        <FightButton fight={()=>{fight(state.pokeName,state.pokemonHp, state.pokeAtt, stateTwo.pokeName,stateTwo.pokemonHp, stateTwo.pokeAtt,setWinner,setWinCount,setWinCountTwo, winCount,winCountTwo)}} pokeName={state.pokeName} pokeHp={state.pokemonHp} pokeAtt={state.pokeAtt}
         pokeNameTwo={stateTwo.pokeName} pokeHpTwo={stateTwo.pokemonHp} pokeAttTwo={stateTwo.pokeAtt}/>
         <ResultsDisplay winnerDisplay={winner} winCountDisplay={winCount} winCountTwo={winCountTwo}/>
+        <p id='battle-info'>battle info</p>
 
 
     </div>

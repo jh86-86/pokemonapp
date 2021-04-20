@@ -1,4 +1,9 @@
-export function fight(oneName,hpOne,attOne,twoName,hpTwo,attTwo){
+import {handleAttck} from './HandleAttack';
+
+
+export function fight(oneName,hpOne,attOne,twoName,hpTwo,attTwo,setWinner, setWinCount, setWinCountTwo, winCount,winCountTwo){
+
+    let battleInfo= document.getElementById("battle-info");
 
     let winCountPlus=winCount +1;
     let winCountPlus2= winCountTwo +1;
