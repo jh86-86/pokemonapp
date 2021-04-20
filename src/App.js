@@ -6,10 +6,10 @@ import FightButton from './fight button/index'
 import ResultsDisplay from './results'
 import "./App.css";
 import H1 from './heading/index';
-import {randomInt} from './Functions/RandomInt.js';
 import {initialCardOne, reducer} from './PokemonReducers/ReducerOne';
 import {initialCardTwo, reducerTwo} from './PokemonReducers/ReducerTwo';
 import {fight} from './Functions/Fight';
+import {fetchPokemon, fetchPokemonTwo} from  './PokemonDataSetters/fetchFunction';
 
 
 
@@ -26,50 +26,7 @@ const[winner,setWinner]=useState("");
 const[winCount,setWinCount]=useState(0);
 const[winCountTwo,setWinCountTwo]=useState(0);
 
-// let resultsArray= [0,0]
-// const[resultTable,setResultTable]=useState(resultsArray);
 
-
-  
-    async function fetchPokemon(){
-      let rand= randomInt();
-      const url=`${process.env.REACT_APP_POKEMON_API}${rand}`; 
-      const response =await fetch(url);
-      const data =await response.json();
-    let name= data.name;
-    let image=data.sprites.front_default;
-    let hp= data.stats[0].base_stat;
-    let attack= data.stats[1].base_stat;
-    let defense= data.stats[2].base_stat;
-    let speed= data.stats[5].base_stat;
-      dispatch({type: "hp", payload:hp});
-      dispatch({type:"pokeImage", payload: image});
-      dispatch({type: "pokeName", payload:name});
-      dispatch({type:"pokeAtt", payload:attack})
-      dispatch({type: "pokeDef", payload:defense});
-      dispatch({type:"pokeSpeed", payload:speed});
-  }
-
-
-  //pokemon card Two
-async function fetchPokemonTwo(){
-  let rand= randomInt();
-  const url=`https://pokeapi.co/api/v2/pokemon/${rand}`;
-  const response =await fetch(url);
-  const data =await response.json();
- let nameTwo= data.name;
- let imageTwo=data.sprites.front_default;
-   let hpTwo= data.stats[0].base_stat;
-   let attackTwo= data.stats[1].base_stat;
-   let defenseTwo= data.stats[2].base_stat;
-    let speedTwo= data.stats[5].base_stat;
-    dispatchTwo({type: "hp", payload:hpTwo});
-      dispatchTwo({type:"pokeImage", payload: imageTwo});
-      dispatchTwo({type: "pokeName", payload:nameTwo});
-      dispatchTwo({type:"pokeAtt", payload:attackTwo})
-      dispatchTwo({type: "pokeDef", payload:defenseTwo});
-      dispatchTwo({type:"pokeSpeed", payload:speedTwo});
-}
 
   return (
     <div className="App">
@@ -92,14 +49,14 @@ async function fetchPokemonTwo(){
 
 
         <div className="button-section">
-        <PokeCall fetchPokemon={fetchPokemon}/>
-        <FetchButtonTwo fetchPokemonTwo={fetchPokemonTwo}/>
+        <PokeCall fetchPokemon={()=>fetchPokemon({dispatch})}/>
+        <FetchButtonTwo fetchPokemonTwo={()=>fetchPokemonTwo({dispatchTwo})}/>
       </div>  
      
         <FightButton fight={()=>{fight(state.pokeName,state.pokemonHp, state.pokeAtt, stateTwo.pokeName,stateTwo.pokemonHp, stateTwo.pokeAtt,setWinner,setWinCount,setWinCountTwo, winCount,winCountTwo)}} pokeName={state.pokeName} pokeHp={state.pokemonHp} pokeAtt={state.pokeAtt}
         pokeNameTwo={stateTwo.pokeName} pokeHpTwo={stateTwo.pokemonHp} pokeAttTwo={stateTwo.pokeAtt}/>
         <ResultsDisplay winnerDisplay={winner} winCountDisplay={winCount} winCountTwo={winCountTwo}/>
-        <p id='battle-info'>battle info</p>
+        <div id='battle-info'>battle info</div>
 
 
     </div>
