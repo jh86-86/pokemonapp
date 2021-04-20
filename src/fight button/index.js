@@ -12,4 +12,4 @@ function FightButton({fight, pokeName, pokeHp, pokeAtt,
 
 export default FightButton;
 
-//function fight(oneName,hpOne,attOne,twoName,hpTwo,attTwo)
+//starts the fight

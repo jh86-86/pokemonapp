@@ -8,3 +8,5 @@ function FetchButtonTwo({fetchPokemonTwo}){
 }
 
 export default FetchButtonTwo;
+
+//brings a pokemon from the API

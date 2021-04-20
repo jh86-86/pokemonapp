@@ -11,3 +11,5 @@ function ResultsDisplay({winnerDisplay,winCountDisplay,winCountTwo}){
 };
     
 export default ResultsDisplay;
+
+//displays the results of each match
